@@ -1,0 +1,85 @@
+<style>
+body {
+  min-width:357px;
+  min-height: 300px;
+  overflow-x:hidden;
+  background-image: url("omnichrome.png");
+  background-repeat: no-repeat;
+  background-position:bottom left;
+}
+
+img {
+  margin:5px;
+  border:2px solid black;
+  vertical-align:middle;
+  width:75px;
+  height:75px;
+}
+</style>
+
+<script type="text/javascript" src="http://www.google.com/jsapi">
+    </script>
+    
+<script type="text/javascript" src="shortcut.js">
+</script>
+
+<script>
+
+google.load("language", "1");
+
+languageCode = "";
+languageName = "";
+
+function translate(text)
+{
+  // Detect the language of the text.
+  google.language.detect(text, function(result) {
+    var detected = document.getElementById("detected");
+    // If there wasn't an error in the request
+    if (!result.error) {
+      var langCode = result.language;
+      languageCode = langCode;
+      
+      var langName;
+
+      // Loop through the languages enum so that we can find the actual name of the language.
+      // Learn about the languages enum here:
+      // http://code.google.com/apis/ajaxlanguage/documentation/reference.html#LangNameArray
+      for (var i in google.language.Languages) {
+        var thisLangCode = google.language.Languages[i];
+        if (thisLangCode == langCode) {
+          // If we find the language code, store the language name.
+          langName = i;
+          break;
+        }
+      }
+      
+      languageName = langName;
+
+      // Se the detected language.
+      detected.innerHTML = 'Detected: "' + result.language + '" - aka "' + langName + '"';
+    }
+  });
+  
+  google.language.translate(text, languageCode, 'en', function(result) {
+    
+    var translated = document.getElementById("translation");
+    if (result.translation) {
+      translated.innerHTML = result.translation;
+    }
+  });
+}
+</script>
+
+<body onload="document.getElementById('query').focus()">
+
+<input id="query" type="text" onKeyUp="translate(this.value)" />
+<p id="detected">
+&nbsp;
+</p>
+<hr />
+<div id="translation">
+result
+</div>
+
+</body>
