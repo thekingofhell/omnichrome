@@ -2,7 +2,10 @@
   "name": "Omnichrome",
   "version": "0.1",
   "description": "Ubiquity-like command line extension for Google Chrome.",
+  
   "background_page": "background.html",
+  "options_page": "options.html",
+  
   "browser_action": {
     "default_icon": "omnichrome.png",
     "popup": "popup.html"
